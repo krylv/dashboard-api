@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id         Int      @id @unique
+  title      String
+  slug       String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  Page       Page[]
+}
+
+model Page {
+  id         Int      @id @unique
+  project_id Int
+  project    Project  @relation(fields: [project_id], references: [id])
+  title      String
+  slug       String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+}
+
+model blocks {
+  id Int @id @unique
+  project_id Int @unique 
+  page_id Int @unique
+  title String
+  description String
+  slug String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  
+}
