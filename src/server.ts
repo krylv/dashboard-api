@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import dotenv from "dotenv";
 import { projectsRouter } from "./projects/projects.controller";
 import { PrismaClient } from "./generated/prisma";
@@ -10,6 +11,7 @@ const app = express();
 export const prisma = new PrismaClient();
 async function main() {
   app.use(express.json());
+  app.use(cors());
 
   app.use("/api/projects", projectsRouter); //Подключение контроллера проектов
   app.use("/api/pages", pagesRouter);
@@ -23,6 +25,7 @@ async function main() {
   });
   app.use((err, req, res, next) => {
     console.error(err.stack);
+    
     res.status(500).send("Что-то пошло не так");
   });
   app.listen(process.env.PORT, () => {

@@ -15,32 +15,32 @@ datasource db {
 }
 
 model Project {
-  id         Int      @id @unique
+  id         Int      @id  @default(autoincrement())
   title      String
-  slug       String
+  slug       String @unique
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
   Page       Page[]
 }
 
 model Page {
-  id         Int      @id @unique
+  id         Int      @id @default(autoincrement())
   project_id Int
   project    Project  @relation(fields: [project_id], references: [id])
   title      String
-  slug       String
+  slug       String @unique
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
 model blocks {
-  id Int @id @unique
-  project_id Int @unique 
-  page_id Int @unique
+  id Int @id @default(autoincrement())
+  project_id Int 
+  page_id Int 
   title String
   description String
-  slug String
+  slug String @unique
   created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  updated_at DateTime @updatedAt
   
 }
